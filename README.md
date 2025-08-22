@@ -1,8 +1,11 @@
 # my_mutex
 
- I will try to implement popular variants of mutex implementation in go
-#
-- Вариант 1: Channel
-- Вариант 2: Petersons
-- Вариант 3: Spinlock
-- Вариант 4: Ticket
+## The most important thing to understand:
+The machine does not execute the code you wrote...
+
+
+## My asists:
+- Option 1: Channel
+- Option 2: Petersons
+- Option 3: Spinlock
+- Option 4: Ticket
