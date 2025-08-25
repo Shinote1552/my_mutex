@@ -9,3 +9,10 @@ The machine does not execute the code you wrote...
 - Option 2: Petersons
 - Option 3: Spinlock
 - Option 4: Ticket
+
+
+
+
+
+# Materials
+- https://victoriametrics.com/blog/tags/go/
