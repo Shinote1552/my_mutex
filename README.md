@@ -4,6 +4,13 @@
 The machine does not execute the code you wrote...
 
 
+## Ready now Context:
+package mycontext `internal/my_context/mycontext`
+- WithCancel
+- WithoutCancel
+- WithDeadline
+- WithTimeout
+
 ## My asists:
 - Option 1: Channel
 - Option 2: Petersons
