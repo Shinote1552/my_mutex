@@ -1,16 +1,36 @@
-package mymutexspinlock
+package mymutex
 
-import "sync/atomic"
+import (
+	"runtime"
+	"sync/atomic"
+)
 
-// Реализовать спинлок на основе атомарных операций
+const (
+	locked         = true
+	unlocked       = false
+	deferredRetrys = 5
+)
+
 type Mutex struct {
-	locked atomic.Bool
+	state atomic.Bool
 }
 
-func (s *Mutex) Lock() {
-	// TODO: реализовать захват через цикл ожидания
+func (mu *Mutex) Lock() {
+	/*
+		если CompareAndSwap смог поменять значение
+		state, то вернется true, иначе жгем поток for
+	*/
+	counter := deferredRetrys
+	for !mu.state.CompareAndSwap(unlocked, locked) {
+		counter--
+		if counter == 0 {
+			runtime.Gosched()
+			counter = deferredRetrys
+		}
+	}
 }
 
-func (s *Mutex) Unlock() {
-	// TODO: реализовать освобождение
+// func (mu *Mutex) TryLock() bool {}
+func (mu *Mutex) Unlock() {
+	mu.state.Store(unlocked)
 }
