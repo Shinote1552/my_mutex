@@ -11,14 +11,8 @@ package mycontext `internal/my_context/mycontext`
 - WithDeadline
 - WithTimeout
 
-## My asists:
-- Option 1: Channel
-- Option 3: Spinlock
-- Option 4: Ticket
-
-
-
-
-
-# Materials
-- https://victoriametrics.com/blog/tags/go/
+## Ready mutexes:
+package mymutex CAS `internal/my_mutex_cas_spin_lock/mymutex`
+package mymutex CAS `internal/my_mutex_ticket_spin_lock/mymutex`
+- CAS lock(with spin_lock) used 1 atomic.bool
+- Ticket lock(with spin_lock) used 2 atomic.Uint32

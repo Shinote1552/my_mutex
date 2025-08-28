@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"project/my_contex/mycontext"
+	"my_mutex/internal/my_contex/mycontext"
 	"sync"
 	"time"
 )

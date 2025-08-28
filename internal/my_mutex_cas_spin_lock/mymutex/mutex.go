@@ -6,9 +6,9 @@ import (
 )
 
 const (
-	locked         = true
-	unlocked       = false
-	deferredRetrys = 5
+	locked    = true
+	unlocked  = false
+	spinCount = 5
 )
 
 type Mutex struct {
@@ -18,14 +18,17 @@ type Mutex struct {
 func (mu *Mutex) Lock() {
 	/*
 		если CompareAndSwap смог поменять значение
-		state, то вернется true, иначе жгем поток for
+		state, то вернется true, иначе греем поток
+		в количестве spinCount раз и после
+		переводим горутину в runabler,
+		т.е. переводится в конец очереди горутин.
 	*/
-	counter := deferredRetrys
+	counter := spinCount
 	for !mu.state.CompareAndSwap(unlocked, locked) {
 		counter--
 		if counter == 0 {
 			runtime.Gosched()
-			counter = deferredRetrys
+			counter = spinCount
 		}
 	}
 }
