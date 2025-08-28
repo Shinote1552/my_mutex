@@ -13,7 +13,6 @@ package mycontext `internal/my_context/mycontext`
 
 ## My asists:
 - Option 1: Channel
-- Option 2: Petersons
 - Option 3: Spinlock
 - Option 4: Ticket
 
