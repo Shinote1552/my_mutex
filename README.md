@@ -1,18 +1,38 @@
 # my_mutex
 
 ## The most important thing to understand:
-The machine does not execute the code you wrote...
+> The machine does not execute the code you wrote...
 
+## Context Implementation
 
-## Ready now Context:
-package mycontext `internal/my_context/mycontext`
-- WithCancel
-- WithoutCancel
-- WithDeadline
-- WithTimeout
+**Package**: `mycontext` (`internal/my_context/mycontext`)
 
-## Ready mutexes:
-package mymutex CAS `internal/my_mutex_cas_spin_lock/mymutex`
-package mymutex CAS `internal/my_mutex_ticket_spin_lock/mymutex`
-- CAS lock(with spin_lock) used 1 atomic.bool
-- Ticket lock(with spin_lock) used 2 atomic.Uint32
+**Available Functions**:
+- `WithCancel`
+- `WithoutCancel` 
+- `WithDeadline`
+- `WithTimeout`
+
+## Performance Testing Results
+
+Tested(not clean Benchmark) `mycontext` with different mutex implementations:
+
+| Mutex Type | Execution Time |
+|------------|----------------|
+| `sync` (standard library) | 0.416s |
+| `mymutextic` (ticket spin lock) | 0.558s |
+| `mymutexcas` (CAS spin lock) | 0.418s |
+
+## Available Mutex Implementations
+
+### 1. CAS Spin Lock
+**Package**: `mymutex` (`internal/my_mutex_cas_spin_lock/mymutex`)
+
+**Implementation**: Compare-And-Swap with spin lock
+**Atomic Variables**: 1 `atomic.Bool`
+
+### 2. Ticket Spin Lock  
+**Package**: `mymutex` (`internal/my_mutex_ticket_spin_lock/mymutex`)
+
+**Implementation**: Ticket-based spin lock
+**Atomic Variables**: 2 `atomic.Uint32`

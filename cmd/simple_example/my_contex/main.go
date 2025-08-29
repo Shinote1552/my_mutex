@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	"my_mutex/internal/my_contex/mycontext"
+	"my_mutex/internal/mycontext"
 	"sync"
 	"time"
 )
 
-func testWorker(ctx mycontext.Context, wg *sync.WaitGroup, i int, resultChan chan string) {
+func testWorker(ctx *mycontext.Context, wg *sync.WaitGroup, i int, resultChan chan string) {
 	defer wg.Done()
 
 	select {

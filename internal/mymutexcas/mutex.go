@@ -1,4 +1,4 @@
-package mymutex
+package mymutexcas
 
 import (
 	"runtime"
@@ -6,9 +6,10 @@ import (
 )
 
 const (
-	locked    = true
-	unlocked  = false
-	spinCount = 5
+	locked           = true
+	unlocked         = false
+	spinCountLock    = 80
+	spinCountTryLock = 10
 )
 
 type Mutex struct {
@@ -23,17 +24,27 @@ func (mu *Mutex) Lock() {
 		переводим горутину в runabler,
 		т.е. переводится в конец очереди горутин.
 	*/
-	counter := spinCount
+	counter := spinCountLock
 	for !mu.state.CompareAndSwap(unlocked, locked) {
 		counter--
 		if counter == 0 {
 			runtime.Gosched()
-			counter = spinCount
+			counter = spinCountLock
 		}
 	}
 }
 
-// func (mu *Mutex) TryLock() bool {}
+func (mu *Mutex) TryLock() bool {
+	counter := spinCountTryLock
+	for !mu.state.CompareAndSwap(unlocked, locked) {
+		counter--
+		if counter == 0 {
+			counter = spinCountTryLock
+			return false
+		}
+	}
+	return true
+}
 func (mu *Mutex) Unlock() {
 	mu.state.Store(unlocked)
 }

@@ -1,4 +1,4 @@
-package mymutex
+package mymutextic
 
 import (
 	"runtime"
